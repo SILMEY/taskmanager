@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kanban Board</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+
+<body class="bg-gray-100">
+  
+  <div class="menu">
+    <ul>
+      <li><a href="#">Accueil</a></li>
+      <li><a href="#">Tâches</a></li>
+      <li><a href="#">Paramètres</a></li>
+    </ul>
+
+    <div class="menu-footer">
+      &copy; 2024 EMF - MES
+    </div>
+  </div>
+  <div class="banner">
+    <h1>Kanban Board</h1>
+    <div class="banner-right">
+      <img src="abstract-user-flat-3.svg" alt="User" class="user-icon" />
+      <button class="login-btn">Login</button>
+    </div>
+  </div>
+  <div class="container">
+  <div class="container mx-auto p-6">
+    <!-- Modale d'erreur -->
+    <div id="errorModal"
+      class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
+      <div class="bg-white p-6 rounded shadow-md">
+        <h2 class="text-2xl font-bold mb-4">Erreur</h2>
+        <p id="errorMessage" class="mb-4"></p>
+        <button id="closeErrorModal" class="bg-red-500 text-white px-4 py-2 rounded">Fermer</button>
+      </div>
+    </div>
+
+    <!-- Formulaire de modification de tâche -->
+    <div id="editTaskForm"
+      class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
+      <div class="bg-white p-6 rounded shadow-md">
+        <h2 class="text-2xl font-bold mb-4">Modifier la tâche</h2>
+        <form id="taskEditForm">
+          <input type="hidden" id="editTaskId" />
+          <div class="mb-4">
+            <label for="editTitle" class="block font-medium">Titre</label>
+            <input type="text" id="editTitle" class="border p-2 w-full" required />
+          </div>
+          <div class="mb-4">
+            <label for="editDescription" class="block font-medium">Description</label>
+            <textarea id="editDescription" class="border p-2 w-full" required></textarea>
+          </div>
+          <div class="mb-4">
+            <label for="editStatus" class="block font-medium">État</label>
+            <select id="editStatus" class="border p-2 w-full" required>
+              <option value="todo">To Do</option>
+              <option value="doing">Doing</option>
+              <option value="done">Done</option>
+            </select>
+          </div>
+          <div class="mb-4">
+            <label for="editUserId" class="block font-medium">Utilisateur ID</label>
+            <!-- <input type="number" id="editUserId" class="border p-2 w-full" required />   -->
+            <input type="hidden" id="editTaskVersion" />
+            <select id="editUserId" class="border p-2 w-full" required>
+              <!-- Les options seront ajoutées dynamiquement ici -->
+            </select>
+
+            
+          </div>
+          <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Modifier</button>
+          <button type="button" id="cancelEdit" class="bg-red-500 text-white px-4 py-2 rounded ml-2">Annuler</button>
+        </form>
+      </div>
+    </div>
+
+
+
+
+    <!-- Tableau Kanban -->
+    <div class="flex space-x-6">
+      <!-- Colonne To Do -->
+      <div class="w-1/3">
+        <h2 class="text-2xl font-semibold mb-4">To Do</h2>
+        <div id="todoTasks" class="space-y-4 bg-gray-50 p-4 rounded h-96 overflow-y-auto" ondrop="drop(event)"
+          ondragover="allowDrop(event)" data-status="todo"></div>
+      </div>
+
+      <!-- Colonne Doing -->
+      <div class="w-1/3">
+        <h2 class="text-2xl font-semibold mb-4">Doing</h2>
+        <div id="doingTasks" class="space-y-4 bg-gray-50 p-4 rounded h-96 overflow-y-auto" ondrop="drop(event)"
+          ondragover="allowDrop(event)" data-status="doing"></div>
+      </div>
+
+      <!-- Colonne Done -->
+      <div class="w-1/3">
+        <h2 class="text-2xl font-semibold mb-4">Done</h2>
+        <div id="doneTasks" class="space-y-4 bg-gray-50 p-4 rounded h-96 overflow-y-auto" ondrop="drop(event)"
+          ondragover="allowDrop(event)" data-status="done"></div>
+      </div>
+    </div>
+
+    <!-- Bouton pour ouvrir le formulaire d'ajout de tâche -->
+    <button id="addTaskBtn" class="bg-green-500 text-white px-4 py-2 rounded mb-6">Ajouter une tâche</button>
+
+    <!-- Formulaire d'ajout de tâche -->
+    <div id="addTaskForm"
+      class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
+      <div class="bg-white p-6 rounded shadow-md">
+        <h2 class="text-2xl font-bold mb-4">Ajouter une nouvelle tâche</h2>
+        <form id="taskAddForm">
+          <div class="mb-4">
+            <label for="addTitle" class="block font-medium">Titre</label>
+            <input type="text" id="addTitle" class="border p-2 w-full" required />
+          </div>
+          <div class="mb-4">
+            <label for="addDescription" class="block font-medium">Description</label>
+            <textarea id="addDescription" class="border p-2 w-full" required></textarea>
+          </div>
+          <div class="mb-4">
+            <label for="addStatus" class="block font-medium">État</label>
+            <select id="addStatus" class="border p-2 w-full" required>
+              <option value="todo">To Do</option>
+              <option value="doing">Doing</option>
+              <option value="done">Done</option>
+            </select>
+          </div>
+          <div class="mb-4">
+            <label for="addUserId" class="block font-medium">Utilisateur ID</label>
+            <!-- <input type="number" id="addUserId" class="border p-2 w-full" required /> -->
+            <select id="addUserId" class="border p-2 w-full" required> <!--select pour les username -->  </select> 
+          </div>
+          <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Ajouter</button>
+          <button type="button" id="cancelAdd" class="bg-red-500 text-white px-4 py-2 rounded ml-2">Annuler</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Bouton pour ouvrir le formulaire d'ajout de user -->
+    <button id="addUserBtn" class="bg-green-500 text-white px-4 py-2 rounded mb-6">Ajouter un utilisateur</button>
+
+    <!-- Formulaire d'ajout de user -->
+    <div id="addUserForm"
+      class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
+      <div class="bg-white p-6 rounded shadow-md">
+        <h2 class="text-2xl font-bold mb-4">Ajouter un nouvel utilisateur</h2>
+        <form id="userAddForm">
+          <div class="mb-4">
+            <label for="addUsername" class="block font-medium">Nom d'utilisateur</label>
+            <input type="text" id="addUsername" class="border p-2 w-full" required />
+          </div>
+          <div class="mb-4">
+            <label for="addEmail" class="block font-medium">Email</label>
+            <input type="email" id="addEmail" class="border p-2 w-full" required />
+          </div>
+          <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Ajouter</button>
+          <button type="button" id="cancelAddUser" class="bg-red-500 text-white px-4 py-2 rounded ml-2">Annuler</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+  <script src="script.js"></script>
+
+</body>
+
+</html>

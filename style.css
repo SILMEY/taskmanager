@@ -1,0 +1,144 @@
+ body {
+    background-color: rgb(33, 33, 33); /* Gris foncé */
+    font-family: 'Arial', sans-serif;
+    color: #000000;
+    /* Texte général en gris très clair */
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Style des titres principaux */
+  h1 {
+    font-size: 3rem;
+    color: #000000;
+    margin-bottom: 20px;
+  }
+
+  /* Style des colonnes (To Do, Doing, Done) */
+  h2 {
+    font-size: 2rem;
+    color: #000000;
+    /* Gris très clair pour les sous-titres */
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  /* Style des boîtes contenant les tâches */
+  .task-box {
+    background-color: rgba(255, 255, 255, 0.1);
+    /* Boîte semi-transparente */
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    color: #ffffff;
+    font-size: 1.2rem;
+  }
+
+  button {
+    font-size: 1rem;
+    padding: 8px 16px;
+    border-radius: 4px;
+    background-color: #444;
+    color: #fff;
+    border: none;
+    transition: background 0.3s ease;
+    margin-bottom: 20px; /* Ajout d'une marge sous les boutons */
+
+    margin-top: 20px;
+  }
+
+  button:hover {
+    background-color: #555;
+  }
+
+  .banner {
+    background-color: rgb(33, 33, 33); /* Gris foncé */
+    color: #fff; /* Texte en blanc */
+    padding: 10px;
+    text-align: left;
+    margin-left: 200px;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between; /* Espacement entre le titre et la partie droite */
+    align-items: center; /* Aligne verticalement le titre et le contenu de droite */
+  }
+  .banner h1 {
+    color: #8E8E8E; /* Couleur gris clair pour le titre */
+    font-size: 2rem; /* Taille du texte du titre */
+    /*margin: 0;  Retirer les marges par défaut */
+    padding: 10px 0; /* Gérer l'espace autour du titre */
+  }
+  .banner-right {
+    display: flex;
+    align-items: center;
+  }
+  
+  .user-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px; /* Espace entre l'image et le bouton */
+  }
+  
+  .login-btn {
+    background-color: #444;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .login-btn:hover {
+    background-color: #555;
+  }
+
+  .menu {
+    background-color: rgb(23, 23, 23);
+    color: #fff;
+    width: 200px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Espace entre le menu et le bas */
+  }
+  
+  .menu ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .menu ul li {
+    margin: 20px 0;
+  }
+  
+  .menu ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .menu ul li a .menu-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
+  
+  .menu-footer {
+    margin-bottom: 20px; /* Espacement en bas */
+    text-align: center;
+    font-size: 0.9rem; /* Taille légèrement plus petite */
+    color: #bbb; /* Gris clair pour le copyright */
+  }
+  .container {
+    margin-left: 200px; /* Décale le contenu principal pour ne pas être sous le menu */
+    padding: 20px; /* Ajoute un peu de padding pour l'espacement */
+  }
